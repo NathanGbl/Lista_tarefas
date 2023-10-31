@@ -28,17 +28,6 @@ int main() {
         alterar_tarefa(&lt);
         break;
     }
-  //   if (opcao == 1) {
-  //   cadastra_tarefa(&lt);
-  // }
-  // else if (opcao == 2) {
-  //   printf("\n");
-  //   deleta_tarefa(&lt, index_tarefa);
-  // }
-  // else if (opcao == 3) {
-  //   printf("\n");
-  //   listar_tarefa(&lt);
-  // }
   } while(opcao != 0);
 
   escreve_arquivo(&lt); // Adiciona as mudanças no arquivo
