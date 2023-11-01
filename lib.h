@@ -19,7 +19,7 @@ void exibe_menu(int *opcao);
 
 void cadastra_tarefa(lista_tarefa *lt);
 
-
+void alterar_tarefa(lista_tarefa *lt);
 
 void filtro_prioridade(lista_tarefa *lt);
 
@@ -29,7 +29,7 @@ void filtro_categoria(lista_tarefa *lt);
 
 void filtro_prioridade_categoria(lista_tarefa *lt);
 
-
+void export();
 
 void le_arquivo(lista_tarefa  *lt);
 
