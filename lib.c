@@ -53,7 +53,86 @@ void cadastra_tarefa(lista_tarefa  *lt) {
   
 }
 
+void listar_tarefa(lista_tarefa *lt) {
+  
+  for (int x = 0; x < lt->qtnd; x++) { 
+    // loop que itera sobre as tarefas dentro do array de struct tarefa[100] e exibe cada informação até chegar na última tarefa através do lt->qtnd
+    printf("Tarefa %d\n", x);
+    printf("\tDescrição: %s\n", lt->tarefa[x].descricao);
+    printf("\tCategoria: %s\n", lt->tarefa[x].categoria);
+    printf("\tPrioridade: %d\n", lt->tarefa[x].prioridade);
+    printf("\tEstado: %s\n", lt->tarefa[x].estado);
+  }
+  
+}
 
+void deleta_tarefa(lista_tarefa *lt, int tarefa) {
+
+  printf("Digite o número da tarefa para deletá-la: ");
+  scanf("%d", &tarefa);
+
+  for (; tarefa < lt->qtnd; tarefa++) { 
+    // loop que itera a partir da posição da tarefa dentro do array tarefa[100] do struct lista_tarefa que o usuário quer deletar.
+    // o loop sobrescreve as variáveis dentro do struct tarefa com as variáveis da próxima tarefa a partir da posição que o usuário digitar
+    strcpy(lt->tarefa[tarefa].descricao, lt->tarefa[tarefa + 1].descricao);
+    strcpy(lt->tarefa[tarefa].categoria, lt->tarefa[tarefa + 1].categoria);
+    lt->tarefa[tarefa].prioridade = lt->tarefa[tarefa].prioridade;
+    strcpy(lt->tarefa[tarefa].estado, lt->tarefa[tarefa + 1].estado);
+  }
+  lt->qtnd -= 1; // diminui o lt->qtnd para a variável apontar para a última tarefa
+  printf("\tTarefa deletada com sucesso!\n");
+  
+}
+
+void exibe_menu2(int *tarefa, int *dado_alterado) {
+  
+  printf("\t Número da tarefa que deseja alterar: ");
+  scanf("%d", tarefa);
+  printf("\n");
+
+  printf("\tEscolha o dado da tarefa %d que deseja alterar:\n", *tarefa);
+  printf("\t1. Descrição\n");
+  printf("\t2. Categoria\n");
+  printf("\t3. Prioridade\n");
+  printf("\t4. Estado\n");
+  printf("\tOpção: ");
+  scanf("%d", dado_alterado);
+  printf("\n");
+  
+}
+
+void alterar_tarefa(lista_tarefa *lt) {
+
+  int tarefa;
+  int dado_alterado;
+  int prioridade;
+  char estado[20];
+  exibe_menu2(&tarefa, &dado_alterado);
+
+  if (dado_alterado == 1) {
+    printf("\tDigite a nova descrição: ");
+    scanf("%s", lt->tarefa[tarefa].descricao);
+    printf("\n\tMudança realizada com sucesso!\n");
+  }
+  else if (dado_alterado == 2) {
+    printf("\tDigite a nova categoria: ");
+    scanf("%s", lt->tarefa[tarefa].categoria);
+    printf("\n\tMudança realizada com sucesso!\n");
+  }
+  else if (dado_alterado == 3) {
+    printf("\tDigite a nova prioridade: ");
+    scanf("%d", &lt->tarefa[tarefa].prioridade);
+    printf("\n\tMudança realizada com sucesso!");
+  }
+  else if (dado_alterado == 4) {
+    printf("\tDigite o novo estado: ");
+    scanf("%s", lt->tarefa[tarefa].estado);
+    printf("\n\tMudança realizada com sucesso!");
+  }
+  else {
+    printf("\n\tMudança impossível!\n");
+  }
+}
 
 void le_arquivo(lista_tarefa *lt) {
 
@@ -66,7 +145,6 @@ void le_arquivo(lista_tarefa *lt) {
     fread(lt, sizeof(lista_tarefa), 1, f); // Caso exista, atualiza as informações presentes no código. Por exemplo o lt->qtnd que sempre se inicia com 0, mas ao abrir o arquivo, o valor pode mudar.
     fclose(f);
   }
-  return;
   
 }
 
