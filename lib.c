@@ -9,11 +9,14 @@ void exibe_menu(int *opcao) {
   printf("1. Criar tarefa\n");
   printf("2. Deletar tarefa\n");
   printf("3. Listar tarefa\n");
+  printf("4. Alterar tarefa\n");
   printf("0. Sair\n");
   printf("Opção: ");
   scanf("%d", opcao);
   
 }
+
+// gerencia_tarefa
 
 void cadastra_tarefa(lista_tarefa  *lt) {
   
@@ -46,9 +49,11 @@ void cadastra_tarefa(lista_tarefa  *lt) {
     lt->tarefa[lt->qtnd] = tarefa; // adiciona o struct tarefa preenchido com os dados na variável tarefa[100] do struct lista_tarefa
     lt->qtnd += 1; // faz a variável apontar para a próxima posição do array de tarefas
     printf("Dados cadastrados com sucesso!\n");
+    return;
   }
   else {
     printf("Dados inválidos.\n");
+    return;
   }
   
 }
@@ -57,11 +62,11 @@ void listar_tarefa(lista_tarefa *lt) {
   
   for (int x = 0; x < lt->qtnd; x++) { 
     // loop que itera sobre as tarefas dentro do array de struct tarefa[100] e exibe cada informação até chegar na última tarefa através do lt->qtnd
-    printf("Tarefa %d\n", x);
+    printf("\nTarefa %d\n", x);
     printf("\tDescrição: %s\n", lt->tarefa[x].descricao);
     printf("\tCategoria: %s\n", lt->tarefa[x].categoria);
     printf("\tPrioridade: %d\n", lt->tarefa[x].prioridade);
-    printf("\tEstado: %s\n", lt->tarefa[x].estado);
+    printf("\tEstado: %s\n\n", lt->tarefa[x].estado);
   }
   
 }
@@ -121,17 +126,27 @@ void alterar_tarefa(lista_tarefa *lt) {
   }
   else if (dado_alterado == 3) {
     printf("\tDigite a nova prioridade: ");
-    scanf("%d", &lt->tarefa[tarefa].prioridade);
-    printf("\n\tMudança realizada com sucesso!");
+    scanf("%d", &prioridade);
+    if (prioridade >= 0 && prioridade <= 10) {
+      lt->tarefa[tarefa].prioridade = prioridade;
+      printf("\n\tMudança realizada com sucesso!\n");
+    }
+    else {
+      printf("\n\tDados inválidos. Mudança cancelada.\n");
+    }
   }
   else if (dado_alterado == 4) {
     printf("\tDigite o novo estado: ");
-    scanf("%s", lt->tarefa[tarefa].estado);
-    printf("\n\tMudança realizada com sucesso!");
+    scanf("%s", estado);
+    if (strcmp(estado, "concluído") == 0 || strcmp(estado, "em andamento") == 0 || strcmp(estado, "incompleto") == 0) {
+      strcpy(lt->tarefa[tarefa].estado, estado);
+      printf("\n\tMudança realizada com sucesso!\n");
+    }
+    else {
+      printf("\n\tDados inválidos. Mudança cancelada.\n");
+    }
   }
-  else {
-    printf("\n\tMudança impossível!\n");
-  }
+  
 }
 
 void le_arquivo(lista_tarefa *lt) {
@@ -145,6 +160,7 @@ void le_arquivo(lista_tarefa *lt) {
     fread(lt, sizeof(lista_tarefa), 1, f); // Caso exista, atualiza as informações presentes no código. Por exemplo o lt->qtnd que sempre se inicia com 0, mas ao abrir o arquivo, o valor pode mudar.
     fclose(f);
   }
+  return;
   
 }
 

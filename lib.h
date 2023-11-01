@@ -19,9 +19,9 @@ void exibe_menu(int *opcao);
 
 void cadastra_tarefa(lista_tarefa *lt);
 
-void listar_tarefa(lista_tarefa *lt);
-
 void deleta_tarefa(lista_tarefa *lt, int tarefa);
+
+void listar_tarefa(lista_tarefa *lt);
 
 void exibe_menu2(int *tarefa, int *dado_alterado);
 
