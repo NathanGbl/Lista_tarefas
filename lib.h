@@ -17,7 +17,7 @@ typedef struct {
 
 void exibe_menu(int *opcao);
 
-void menu_estado(int *opcao);
+void menu_estado(int *opcao, int modo);
 
 void cadastra_tarefa(lista_tarefa *lt, int *opcao);
 
@@ -27,7 +27,7 @@ void listar_tarefa(lista_tarefa *lt);
 
 void exibe_menu2(int *tarefa, int *dado_alterado);
 
-void alterar_tarefa(lista_tarefa *lt);
+void alterar_tarefa(lista_tarefa *lt, int *opcao);
 
 void le_arquivo(lista_tarefa  *lt);
 
