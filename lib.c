@@ -16,9 +16,19 @@ void exibe_menu(int *opcao) {
   
 }
 
+void menu_estado(int *opcao) {
+  
+  printf("\tSelecione o estado da tarefa:\n");
+  printf("\t\t1. Completo\n");
+  printf("\t\t2. Em andamento\n");
+  printf("\t\t3. Não iniciado\n");
+  printf("\t\tOpção: ");
+  scanf("%d", opcao);
+}
+
 // gerencia_tarefa
 
-void cadastra_tarefa(lista_tarefa  *lt) {
+void cadastra_tarefa(lista_tarefa  *lt, int *opcao) {
   
   char descricao[300];
   char categoria[100];
@@ -26,34 +36,38 @@ void cadastra_tarefa(lista_tarefa  *lt) {
   int prioridade;
   tarefa tarefa;
   
-  printf("Digite a descricao da tarefa %d: ", lt->qtnd);
+  printf("\tDigite a descricao da tarefa %d: ", lt->qtnd);
   scanf("%s", descricao);
   printf("\n");
   strcpy(tarefa.descricao, descricao); // copia a string descrição para a variável descricao dentro do struct tarefa
   
-  printf("Digite a categoria da tarefa: ");
+  printf("\tDigite a categoria da tarefa: ");
   scanf("%s", categoria);
   printf("\n");
   strcpy(tarefa.categoria, categoria); // copia a string categoria para a variável categoria do struct tarefa
   
-  printf("Digite a priorirade da tarefa: ");
+  printf("\tDigite a priorirade da tarefa: ");
   scanf("%d", &prioridade);
   printf("\n");
   tarefa.prioridade = prioridade; // atribui à variável prioridade dentro do struct tarefa o inteiro digitado pelo usuário
 
-  printf("Digite o estado da tarefa: ");
-  scanf("%s", estado);
-  strcpy(tarefa.estado, estado); // copia a string estado para a variável estado dentro do struct tarefa
+  menu_estado(opcao);
+  switch(*opcao) {
+    case 1:
+      strcpy(tarefa.estado, "Completo");
+    case 2:
+      strcpy(tarefa.estado, "Em andamento");
+    case 3:
+      strcpy(tarefa.estado, "Não iniciado");
+  }
 
-  if (tarefa.prioridade >= 0 && tarefa.prioridade <= 10 && strcmp(tarefa.estado, "completo") == 0 || strcmp(tarefa.estado, "incompleto") == 0 || strcmp(tarefa.estado, "em andamento") == 0) { // valida a variável prioridade
+  if (tarefa.prioridade >= 0 && tarefa.prioridade <= 10 && strcmp(tarefa.estado, "Completo") == 0 || strcmp(tarefa.estado, "Em andamento") == 0 || strcmp(tarefa.estado, "Não iniciado") == 0) { // valida a variável prioridade
     lt->tarefa[lt->qtnd] = tarefa; // adiciona o struct tarefa preenchido com os dados na variável tarefa[100] do struct lista_tarefa
     lt->qtnd += 1; // faz a variável apontar para a próxima posição do array de tarefas
     printf("Dados cadastrados com sucesso!\n");
-    return;
   }
   else {
     printf("Dados inválidos.\n");
-    return;
   }
   
 }

@@ -16,7 +16,7 @@ int main() {
 
     switch(opcao) {
       case 1:
-        cadastra_tarefa(&lt);
+        cadastra_tarefa(&lt, &opcao);
         break;
       case 2:
         deleta_tarefa(&lt, index_tarefa);
