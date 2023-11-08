@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include "lib.h"
 
@@ -25,8 +24,10 @@ int main() {
         listar_tarefa(&lt);
         break;
       case 4:
-        alterar_tarefa(&lt);
+        alterar_tarefa(&lt, &opcao);
         break;
+      default:
+        printf("Opção inválida.\n");
     }
   } while(opcao != 0);
 

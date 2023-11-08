@@ -16,14 +16,24 @@ void exibe_menu(int *opcao) {
   
 }
 
-void menu_estado(int *opcao) {
-  
-  printf("\tSelecione o estado da tarefa:\n");
-  printf("\t\t1. Completo\n");
-  printf("\t\t2. Em andamento\n");
-  printf("\t\t3. Não iniciado\n");
-  printf("\t\tOpção: ");
-  scanf("%d", opcao);
+void menu_estado(int *opcao, int modo) {
+
+  if (modo == 1) {
+    printf("\tSelecione o estado da tarefa:\n");
+    printf("\t\t1. Completo\n");
+    printf("\t\t2. Em andamento\n");
+    printf("\t\t3. Não iniciado\n");
+    printf("\t\tOpção: ");
+    scanf("%d", opcao);
+  }
+  else if (modo == 2) {
+    printf("\tSelecione o novo estado da tarefa:\n");
+    printf("\t\t1. Completo\n");
+    printf("\t\t2. Em andamento\n");
+    printf("\t\t3. Não iniciado\n");
+    printf("\t\tOpção: ");
+    scanf("%d", opcao);
+  }
 }
 
 // gerencia_tarefa
@@ -51,14 +61,17 @@ void cadastra_tarefa(lista_tarefa  *lt, int *opcao) {
   printf("\n");
   tarefa.prioridade = prioridade; // atribui à variável prioridade dentro do struct tarefa o inteiro digitado pelo usuário
 
-  menu_estado(opcao);
+  menu_estado(opcao, 1);
   switch(*opcao) {
     case 1:
       strcpy(tarefa.estado, "Completo");
+      break;
     case 2:
       strcpy(tarefa.estado, "Em andamento");
+      break;
     case 3:
       strcpy(tarefa.estado, "Não iniciado");
+      break;
   }
 
   if (tarefa.prioridade >= 0 && tarefa.prioridade <= 10 && strcmp(tarefa.estado, "Completo") == 0 || strcmp(tarefa.estado, "Em andamento") == 0 || strcmp(tarefa.estado, "Não iniciado") == 0) { // valida a variável prioridade
@@ -120,7 +133,7 @@ void exibe_menu2(int *tarefa, int *dado_alterado) {
   
 }
 
-void alterar_tarefa(lista_tarefa *lt) {
+void alterar_tarefa(lista_tarefa *lt, int *opcao) {
 
   int tarefa;
   int dado_alterado;
@@ -150,17 +163,22 @@ void alterar_tarefa(lista_tarefa *lt) {
     }
   }
   else if (dado_alterado == 4) {
-    printf("\tDigite o novo estado: ");
-    scanf("%s", estado);
-    if (strcmp(estado, "concluído") == 0 || strcmp(estado, "em andamento") == 0 || strcmp(estado, "incompleto") == 0) {
-      strcpy(lt->tarefa[tarefa].estado, estado);
-      printf("\n\tMudança realizada com sucesso!\n");
+    menu_estado(opcao, 2);
+    switch(*opcao) {
+      case 1:
+        strcpy(lt->tarefa[tarefa].estado, "Completo");
+        break;
+      case 2:
+        strcpy(lt->tarefa[tarefa].estado, "Em andamento");
+        break;
+      case 3:
+        strcpy(lt->tarefa[tarefa].estado, "Não iniciado");
+        break;
+      default:
+        printf("\n\tDados inválidos. Mudança cancelada.\n");
     }
-    else {
-      printf("\n\tDados inválidos. Mudança cancelada.\n");
-    }
+    printf("\n\tMudança realizada com sucesso!\n");
   }
-  
 }
 
 void le_arquivo(lista_tarefa *lt) {
