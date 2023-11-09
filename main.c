@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include "lib.h"
 
@@ -13,20 +12,21 @@ int main() {
 
   do {
     exibe_menu(&opcao);
-
     switch(opcao) {
       case 1:
-        cadastra_tarefa(&lt);
+        cadastra_tarefa(&lt, &opcao);
         break;
-      case 2:
-        deleta_tarefa(&lt, index_tarefa);
+      case 5:
+        filtro_prioridade(&lt);
         break;
-      case 3:
-        listar_tarefa(&lt);
+      case 6:
+        filtro_estado(&lt, &opcao);
         break;
-      case 4:
-        alterar_tarefa(&lt);
+      case 7:
+        filtro_categoria(&lt);
         break;
+      default:
+        printf("Opção inválida.\n");
     }
   } while(opcao != 0);
 
