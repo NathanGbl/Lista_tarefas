@@ -25,6 +25,9 @@ int main() {
       case 7:
         filtro_categoria(&lt);
         break;
+      case 8:
+        filtro_categoria_prioridade(&lt);
+        break;
       default:
         printf("Opção inválida.\n");
     }
