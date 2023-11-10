@@ -17,19 +17,15 @@ typedef struct {
 
 void exibe_menu(int *opcao);
 
-void cadastra_tarefa(lista_tarefa *lt);
+void menu_estado(int *opcao, int modo);
 
-void alterar_tarefa(lista_tarefa *lt);
+void cadastra_tarefa(lista_tarefa *lt, int *opcao);
 
-void filtro_prioridade(lista_tarefa *lt);
+void exportar_prioridade(lista_tarefa *lt);
 
-void filtro_estado(lista_tarefa *lt);
+void exportar_categoria(lista_tarefa *lt);
 
-void filtro_categoria(lista_tarefa *lt);
-
-void filtro_prioridade_categoria(lista_tarefa *lt);
-
-void export();
+void exportar_prioridade_categoria(lista_tarefa *lt);
 
 void le_arquivo(lista_tarefa  *lt);
 

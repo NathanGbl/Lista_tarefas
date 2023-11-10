@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "lib.h"
 
 void exibe_menu(int *opcao) {
@@ -9,13 +10,41 @@ void exibe_menu(int *opcao) {
   printf("1. Criar tarefa\n");
   printf("2. Deletar tarefa\n");
   printf("3. Listar tarefa\n");
+  printf("4. Alterar tarefa\n");
+  printf("5. Filtrar tarefas por prioridade\n");
+  printf("6. Filtrar tarefas por estado\n");
+  printf("7. Filtrar tarefas por categoria\n");
+  printf("8. Filtrar tarefas por categoria e prioridade\n");
   printf("0. Sair\n");
   printf("Opção: ");
   scanf("%d", opcao);
   
 }
 
-void cadastra_tarefa(lista_tarefa  *lt) {
+void menu_estado(int *opcao, int modo) {
+
+  if (modo == 1) {
+    printf("\tSelecione o estado da tarefa:\n");
+    printf("\t\t1. Completo\n");
+    printf("\t\t2. Em andamento\n");
+    printf("\t\t3. Não iniciado\n");
+    printf("\t\tOpção: ");
+    scanf("%d", opcao);
+  }
+  else if (modo == 2) {
+    printf("\tSelecione o novo estado da tarefa:\n");
+    printf("\t\t1. Completo\n");
+    printf("\t\t2. Em andamento\n");
+    printf("\t\t3. Não iniciado\n");
+    printf("\t\tOpção: ");
+    scanf("%d", opcao);
+  }
+  
+}
+
+// gerencia_tarefa
+
+void cadastra_tarefa(lista_tarefa  *lt, int *opcao) {
   
   char descricao[300];
   char categoria[100];
@@ -23,26 +52,35 @@ void cadastra_tarefa(lista_tarefa  *lt) {
   int prioridade;
   tarefa tarefa;
   
-  printf("Digite a descricao da tarefa %d: ", lt->qtnd);
+  printf("\tDigite a descricao da tarefa %d: ", lt->qtnd);
   scanf("%s", descricao);
   printf("\n");
   strcpy(tarefa.descricao, descricao); // copia a string descrição para a variável descricao dentro do struct tarefa
   
-  printf("Digite a categoria da tarefa: ");
+  printf("\tDigite a categoria da tarefa: ");
   scanf("%s", categoria);
   printf("\n");
   strcpy(tarefa.categoria, categoria); // copia a string categoria para a variável categoria do struct tarefa
   
-  printf("Digite a priorirade da tarefa: ");
+  printf("\tDigite a priorirade da tarefa: ");
   scanf("%d", &prioridade);
   printf("\n");
   tarefa.prioridade = prioridade; // atribui à variável prioridade dentro do struct tarefa o inteiro digitado pelo usuário
 
-  printf("Digite o estado da tarefa: ");
-  scanf("%s", estado);
-  strcpy(tarefa.estado, estado); // copia a string estado para a variável estado dentro do struct tarefa
+  menu_estado(opcao, 1);
+  switch(*opcao) {
+    case 1:
+      strcpy(tarefa.estado, "Completo");
+      break;
+    case 2:
+      strcpy(tarefa.estado, "Em andamento");
+      break;
+    case 3:
+      strcpy(tarefa.estado, "Não iniciado");
+      break;
+  }
 
-  if (tarefa.prioridade >= 0 && tarefa.prioridade <= 10 && strcmp(tarefa.estado, "completo") == 0 || strcmp(tarefa.estado, "incompleto") == 0 || strcmp(tarefa.estado, "em andamento") == 0) { // valida a variável prioridade
+  if (tarefa.prioridade >= 0 && tarefa.prioridade <= 10 && strcmp(tarefa.estado, "Completo") == 0 || strcmp(tarefa.estado, "Em andamento") == 0 || strcmp(tarefa.estado, "Não iniciado") == 0) { // valida a variável prioridade
     lt->tarefa[lt->qtnd] = tarefa; // adiciona o struct tarefa preenchido com os dados na variável tarefa[100] do struct lista_tarefa
     lt->qtnd += 1; // faz a variável apontar para a próxima posição do array de tarefas
     printf("Dados cadastrados com sucesso!\n");
@@ -53,7 +91,25 @@ void cadastra_tarefa(lista_tarefa  *lt) {
   
 }
 
+// exportar
 
+void exportar_prioridade(lista_tarefa *lt) {
+
+  int prioridade;
+  scanf("%d", &prioridade);
+  if (prioridade < 0 || prioridade > 10) {
+    printf("\tPrioridade inválida\n");
+  }
+  else {
+    FILE *f = fopen("Lista_tarefas.txt", "w");
+    fprintf(f, "Tarefa     |     Prioridade     |     Categoria     |     estado     |     descricao");
+    for (int i = 0; i < lt->qtnd; i++) {
+      if (lt->tarefa[i].prioridade == prioridade) {
+        fprintf(f, "Tarefa %d     |     %d     |     %s     |     %s     |     %s", i, lt->tarefa[i].prioridade, lt->tarefa[i].categoria, lt->tarefa[i].estado, lt->tarefa[i].descricao);
+      }
+    }
+  }
+}
 
 void le_arquivo(lista_tarefa *lt) {
 
