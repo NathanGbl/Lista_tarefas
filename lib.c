@@ -50,13 +50,13 @@ void cadastra_tarefa(lista_tarefa  *lt, int *opcao) {
   int prioridade;
   tarefa tarefa;
   printf("\tDigite a descricao da tarefa %d: ", lt->qtnd);
-  getchar();
+  clean_buffer();
   scanf("%[^\n]", descricao);
   printf("\n");
   strcpy(tarefa.descricao, descricao); // copia a string descrição para a variável descricao dentro do struct tarefa
   
   printf("\tDigite a categoria da tarefa: ");
-  getchar();
+  clean_buffer();
   scanf("%[^\n]", categoria);
   printf("\n");
   strcpy(tarefa.categoria, categoria); // copia a string categoria para a variável categoria do struct tarefa
@@ -159,7 +159,8 @@ void filtro_categoria(lista_tarefa *lt) {
   char categoria[101];
   int cont = 0;
   printf("\t\tDigite a categoria desejada: ");
-  scanf("%s", categoria);
+  clean_buffer();
+  scanf("%[^\n]", categoria);
 
   for (int i = 0; i < lt->qtnd; i++) {
     if (strcmp(lt->tarefa[i].categoria, categoria) == 0) {
@@ -194,37 +195,73 @@ int compara_prioridade(const void *valor1, const void *valor2) {
   
 }
 
-void filtro_categoria_prioridade(lista_tarefa *lt) {
+void filtro_categoria_prioridade(lista_tarefa *lt, int modo) {
 
-  tarefa lt_categoria[100];  
-  int lt_categoria_qtnd = 0;  
-  char categoria[101];
-  
-  printf("\t\tCategoria desejada: ");
-  scanf("%s", categoria);
-  
-  for (int i = 0; i < lt->qtnd; i++) {
-    if (strcmp(lt->tarefa[i].categoria, categoria) == 0) {
-    strcpy(lt_categoria[lt_categoria_qtnd].descricao, lt->tarefa[i].descricao);
-    strcpy(lt_categoria[lt_categoria_qtnd].categoria, lt->tarefa[i].categoria);
-    lt_categoria[lt_categoria_qtnd].prioridade = lt->tarefa[i].prioridade;
-    strcpy(lt_categoria[lt_categoria_qtnd].estado, lt->tarefa[i].estado);
-    lt_categoria_qtnd += 1;
+  if (modo == 0) {
+    tarefa lt_categoria[100];  
+    int lt_categoria_qtnd = 0;  
+    char categoria[101];
+
+    printf("\t\tCategoria desejada: ");
+    clean_buffer();
+    scanf("%[^\n]", categoria);
+
+    for (int i = 0; i < lt->qtnd; i++) {
+      if (strcmp(lt->tarefa[i].categoria, categoria) == 0) {
+      strcpy(lt_categoria[lt_categoria_qtnd].descricao, lt->tarefa[i].descricao);
+      strcpy(lt_categoria[lt_categoria_qtnd].categoria, lt->tarefa[i].categoria);
+      lt_categoria[lt_categoria_qtnd].prioridade = lt->tarefa[i].prioridade;
+      strcpy(lt_categoria[lt_categoria_qtnd].estado, lt->tarefa[i].estado);
+      lt_categoria_qtnd += 1;
+      }
+    }
+
+    qsort(lt_categoria, lt_categoria_qtnd, sizeof(tarefa), compara_prioridade);
+
+    for (int i = 0; i < lt_categoria_qtnd; i++) {
+      printf("\t\tTarefa %d\n", i);
+      printf("\t\t\tDescrição: %s\n", lt_categoria[i].descricao);
+      printf("\t\t\tCategoria: %s\n", lt_categoria[i].categoria);
+      printf("\t\t\tPrioridade: %d\n", lt_categoria[i].prioridade);
+      printf("\t\t\tEstado: %s\n", lt_categoria[i].estado);
+    }
+
+    if (lt_categoria_qtnd == 0) {
+      printf("\t\tCategoria não existe");
     }
   }
-  
-  qsort(lt_categoria, lt_categoria_qtnd, sizeof(tarefa), compara_prioridade);
-  
-  for (int i = 0; i < lt_categoria_qtnd; i++) {
-    printf("\t\tTarefa %d\n", i);
-    printf("\t\t\tDescrição: %s\n", lt_categoria[i].descricao);
-    printf("\t\t\tCategoria: %s\n", lt_categoria[i].categoria);
-    printf("\t\t\tPrioridade: %d\n", lt_categoria[i].prioridade);
-    printf("\t\t\tEstado: %s\n", lt_categoria[i].estado);
-  }
-  
-  if (lt_categoria_qtnd == 0) {
-    printf("\t\tCategoria não existe");
+  else if (modo == 1) {
+    tarefa lt_categoria[100];  
+    int lt_categoria_qtnd = 0;  
+    char categoria[101];
+
+    printf("\t\tCategoria desejada: ");
+    clean_buffer();
+    scanf("%[^\n]", categoria);
+
+    for (int i = 0; i < lt->qtnd; i++) {
+      if (strcmp(lt->tarefa[i].categoria, categoria) == 0) {
+      strcpy(lt_categoria[lt_categoria_qtnd].descricao, lt->tarefa[i].descricao);
+      strcpy(lt_categoria[lt_categoria_qtnd].categoria, lt->tarefa[i].categoria);
+      lt_categoria[lt_categoria_qtnd].prioridade = lt->tarefa[i].prioridade;
+      strcpy(lt_categoria[lt_categoria_qtnd].estado, lt->tarefa[i].estado);
+      lt_categoria_qtnd += 1;
+      }
+    }
+
+    qsort(lt_categoria, lt_categoria_qtnd, sizeof(tarefa), compara_prioridade);
+    
+    FILE *f = fopen("Lista_tarefas.txt", "w");
+    fprintf(f, "Tarefa           Prioridade               Categoria               estado         descricao\n");
+
+    for (int i = 0; i < lt_categoria_qtnd; i++) {
+      fprintf(f, "Tarefa %d:            %d                    %s                 %s           %s\n", i, lt_categoria[i].prioridade, lt_categoria[i].categoria, lt_categoria[i].estado, lt_categoria[i].descricao);
+    }
+    fclose(f);
+
+    if (lt_categoria_qtnd == 0) {
+      printf("\t\tCategoria não existe");
+    }
   }
 
 }
@@ -267,5 +304,12 @@ void escreve_arquivo(lista_tarefa *lt) {
     fwrite(lt, sizeof(lista_tarefa), 1, f); // Coloca os dados do struct lista_tarefa no arquivo. Caso o arquivo não existam, essa linha cria o arquivo.
     fclose(f);
   }
+  
+}
+
+void clean_buffer() {
+
+  int i;
+  while ((i = getchar() != '\n' && i != EOF));
   
 }

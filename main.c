@@ -29,7 +29,7 @@ int main() {
             filtro_categoria(&lt);
             break;
           case 4:
-            filtro_categoria_prioridade(&lt);
+            filtro_categoria_prioridade(&lt, 0);
             break;
           default:
             printf("\tOpção inválida.\n");

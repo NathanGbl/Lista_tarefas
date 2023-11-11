@@ -31,10 +31,12 @@ void filtro_categoria(lista_tarefa *lt);
 
 int compara_prioridade(const void *prioridade1, const void *b);
 
-void filtro_categoria_prioridade(lista_tarefa *lt);
+void filtro_categoria_prioridade(lista_tarefa *lt, int modo);
 
 void menu_filtros(int *opcao);
 
 void le_arquivo(lista_tarefa  *lt);
 
 void escreve_arquivo(lista_tarefa *lt);
+
+void clean_buffer();
