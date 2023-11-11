@@ -23,6 +23,10 @@ void menu_estado(int *opcao, int modo);
 
 void cadastra_tarefa(lista_tarefa *lt, int *opcao);
 
+int compara_prioridade(const void *prioridade1, const void *b);
+
+void filtro_categoria_prioridade(lista_tarefa *lt, int modo);
+
 void exportar_prioridade(lista_tarefa *lt);
 
 void exportar_categoria(lista_tarefa *lt);
@@ -34,3 +38,5 @@ void menu_exportar(int *opcao);
 void le_arquivo(lista_tarefa  *lt);
 
 void escreve_arquivo(lista_tarefa *lt);
+
+void clean_buffer();
