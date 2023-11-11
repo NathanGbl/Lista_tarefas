@@ -16,6 +16,22 @@ int main() {
       case 1:
         cadastra_tarefa(&lt, &opcao);
         break;
+      case 6:
+        menu_exportar(&opcao);
+        switch(opcao) {
+          case 1:
+            exportar_prioridade(&lt);
+            break;
+          case 2:
+            exportar_categoria(&lt);
+            break;
+          case 3:
+            exportar_categoria_prioridade(&lt);
+            break;
+          default:
+            printf("\tOpção inválida.\n");
+        }
+        break;
       default:
         printf("Opção inválida.\n");
     }

@@ -15,6 +15,8 @@ typedef struct {
   int qtnd;
 } lista_tarefa; // criação do struct lista_tarefa com o tarefa[100], um array de struct, e o inteiro que indica a quantidade de tarefas dentro do tarefa[100]
 
+// gerencia_tarefa
+
 void exibe_menu(int *opcao);
 
 void menu_estado(int *opcao, int modo);
@@ -25,7 +27,9 @@ void exportar_prioridade(lista_tarefa *lt);
 
 void exportar_categoria(lista_tarefa *lt);
 
-void exportar_prioridade_categoria(lista_tarefa *lt);
+void exportar_categoria_prioridade(lista_tarefa *lt);
+
+void menu_exportar(int *opcao);
 
 void le_arquivo(lista_tarefa  *lt);
 

@@ -9,12 +9,10 @@ void exibe_menu(int *opcao) {
   printf("Selecione uma das opções abaixo:\n");
   printf("1. Criar tarefa\n");
   printf("2. Deletar tarefa\n");
-  printf("3. Listar tarefa\n");
+  printf("3. Listar tarefas\n");
   printf("4. Alterar tarefa\n");
-  printf("5. Filtrar tarefas por prioridade\n");
-  printf("6. Filtrar tarefas por estado\n");
-  printf("7. Filtrar tarefas por categoria\n");
-  printf("8. Filtrar tarefas por categoria e prioridade\n");
+  printf("5. Filtrar tarefas\n");
+  printf("6. Exportar tarefas\n");
   printf("0. Sair\n");
   printf("Opção: ");
   scanf("%d", opcao);
@@ -24,19 +22,19 @@ void exibe_menu(int *opcao) {
 void menu_estado(int *opcao, int modo) {
 
   if (modo == 1) {
-    printf("\tSelecione o estado da tarefa:\n");
-    printf("\t\t1. Completo\n");
-    printf("\t\t2. Em andamento\n");
-    printf("\t\t3. Não iniciado\n");
-    printf("\t\tOpção: ");
+    printf("\t\tSelecione o estado da tarefa:\n");
+    printf("\t\t\t1. Completo\n");
+    printf("\t\t\t2. Em andamento\n");
+    printf("\t\t\t3. Não iniciado\n");
+    printf("\t\t\tOpção: ");
     scanf("%d", opcao);
   }
   else if (modo == 2) {
-    printf("\tSelecione o novo estado da tarefa:\n");
-    printf("\t\t1. Completo\n");
-    printf("\t\t2. Em andamento\n");
-    printf("\t\t3. Não iniciado\n");
-    printf("\t\tOpção: ");
+    printf("\t\tSelecione o novo estado da tarefa:\n");
+    printf("\t\t\t1. Completo\n");
+    printf("\t\t\t2. Em andamento\n");
+    printf("\t\t\t3. Não iniciado\n");
+    printf("\t\t\tOpção: ");
     scanf("%d", opcao);
   }
   
@@ -51,14 +49,15 @@ void cadastra_tarefa(lista_tarefa  *lt, int *opcao) {
   char estado[20];
   int prioridade;
   tarefa tarefa;
-  
   printf("\tDigite a descricao da tarefa %d: ", lt->qtnd);
-  scanf("%s", descricao);
+  getchar();
+  scanf("%[^\n]", descricao);
   printf("\n");
   strcpy(tarefa.descricao, descricao); // copia a string descrição para a variável descricao dentro do struct tarefa
   
   printf("\tDigite a categoria da tarefa: ");
-  scanf("%s", categoria);
+  getchar();
+  scanf("%[^\n]", categoria);
   printf("\n");
   strcpy(tarefa.categoria, categoria); // copia a string categoria para a variável categoria do struct tarefa
   
@@ -78,6 +77,8 @@ void cadastra_tarefa(lista_tarefa  *lt, int *opcao) {
     case 3:
       strcpy(tarefa.estado, "Não iniciado");
       break;
+    default:
+      printf("Opção inválida");
   }
 
   if (tarefa.prioridade >= 0 && tarefa.prioridade <= 10 && strcmp(tarefa.estado, "Completo") == 0 || strcmp(tarefa.estado, "Em andamento") == 0 || strcmp(tarefa.estado, "Não iniciado") == 0) { // valida a variável prioridade
@@ -90,8 +91,6 @@ void cadastra_tarefa(lista_tarefa  *lt, int *opcao) {
   }
   
 }
-
-// exportar
 
 void exportar_prioridade(lista_tarefa *lt) {
 
@@ -109,6 +108,29 @@ void exportar_prioridade(lista_tarefa *lt) {
       }
     }
   }
+}
+
+void exportar_categoria(lista_tarefa *lt) {
+
+  printf("\t\tFuncionou!");
+  
+}
+
+void exportar_categoria_prioridade(lista_tarefa *lt) {
+
+  printf("\t\tFuncionou!");
+  
+}
+
+void menu_exportar(int *opcao) {
+
+  printf("\tEscolha a forma de exportar as tarefas:\n");
+  printf("\t1. Exportar por prioridade\n");
+  printf("\t2. Exportar por categoria\n");
+  printf("\t3. Exportar por categoria e prioridade\n");
+  printf("\tOpção: ");
+  scanf("%d", opcao);
+
 }
 
 void le_arquivo(lista_tarefa *lt) {
