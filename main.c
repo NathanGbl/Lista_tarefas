@@ -17,16 +17,23 @@ int main() {
         cadastra_tarefa(&lt, &opcao);
         break;
       case 5:
-        filtro_prioridade(&lt);
-        break;
-      case 6:
-        filtro_estado(&lt, &opcao);
-        break;
-      case 7:
-        filtro_categoria(&lt);
-        break;
-      case 8:
-        filtro_categoria_prioridade(&lt);
+        menu_filtros(&opcao);
+        switch(opcao) {
+          case 1:
+            filtro_prioridade(&lt);
+            break;
+          case 2:
+            filtro_estado(&lt, &opcao);
+            break;
+          case 3:
+            filtro_categoria(&lt);
+            break;
+          case 4:
+            filtro_categoria_prioridade(&lt);
+            break;
+          default:
+            printf("\tOpção inválida.\n");
+        }
         break;
       default:
         printf("Opção inválida.\n");

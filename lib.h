@@ -15,6 +15,8 @@ typedef struct {
   int qtnd;
 } lista_tarefa; // criação do struct lista_tarefa com o tarefa[100], um array de struct, e o inteiro que indica a quantidade de tarefas dentro do tarefa[100]
 
+// gerencia_tarefa
+
 void exibe_menu(int *opcao);
 
 void menu_estado(int *opcao, int modo);
@@ -30,6 +32,8 @@ void filtro_categoria(lista_tarefa *lt);
 int compara_prioridade(const void *prioridade1, const void *b);
 
 void filtro_categoria_prioridade(lista_tarefa *lt);
+
+void menu_filtros(int *opcao);
 
 void le_arquivo(lista_tarefa  *lt);
 
