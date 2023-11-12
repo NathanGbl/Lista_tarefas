@@ -29,11 +29,9 @@ void filtro_estado(lista_tarefa *lt, int *opcao);
 
 void filtro_categoria(lista_tarefa *lt);
 
-int compara_prioridade(const void *prioridade1, const void *b);
+int compara_prioridade(const void *valor1, const void *valor2);
 
 void filtro_categoria_prioridade(lista_tarefa *lt, int modo);
-
-void menu_filtros(int *opcao);
 
 void le_arquivo(lista_tarefa  *lt);
 

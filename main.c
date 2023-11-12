@@ -35,6 +35,8 @@ int main() {
             printf("\tOpção inválida.\n");
         }
         break;
+      case 0:
+        break;
       default:
         printf("Opção inválida.\n");
     }
