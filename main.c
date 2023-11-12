@@ -25,6 +25,41 @@ int main() {
       case 4:
         alterar_tarefa(&lt, &opcao);
         break;
+      case 5:
+        menu_filtros(&opcao);
+        switch(opcao) {
+          case 1:
+            filtro_prioridade(&lt);
+            break;
+          case 2:
+            filtro_estado(&lt, &opcao);
+            break;
+          case 3:
+            filtro_categoria(&lt);
+            break;
+          case 4:
+            filtro_categoria_prioridade(&lt, 0);
+            break;
+          default:
+            printf("\tOpção inválida.\n");
+        }
+        break;
+      case 6:
+        menu_exportar(&opcao);
+        switch(opcao) {
+          case 1:
+            exportar_prioridade(&lt);
+            break;
+          case 2:
+            exportar_categoria(&lt);
+            break;
+          case 3:
+            exportar_categoria_prioridade(&lt);
+            break;
+          default:
+            printf("\tOpção inválida.\n");
+        }
+        break;
       case 0:
         break;
       default:

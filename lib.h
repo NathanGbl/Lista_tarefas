@@ -31,6 +31,30 @@ void exibe_menu2(int *tarefa, int *dado_alterado);
 
 void alterar_tarefa(lista_tarefa *lt, int *opcao);
 
+// filtros
+
+void filtro_prioridade(lista_tarefa *lt);
+
+void filtro_estado(lista_tarefa *lt, int *opcao);
+
+void filtro_categoria(lista_tarefa *lt);
+
+int compara_prioridade(const void *valor1, const void *valor2);
+
+void filtro_categoria_prioridade(lista_tarefa *lt, int modo);
+
+// exportar
+
+void exportar_prioridade(lista_tarefa *lt);
+
+void exportar_categoria(lista_tarefa *lt);
+
+void exportar_categoria_prioridade(lista_tarefa *lt);
+
+void menu_filtros(int *opcao);
+
+void menu_exportar(int *opcao);
+
 void le_arquivo(lista_tarefa  *lt);
 
 void escreve_arquivo(lista_tarefa *lt);
