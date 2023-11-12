@@ -23,7 +23,7 @@ void menu_estado(int *opcao, int modo);
 
 void cadastra_tarefa(lista_tarefa *lt, int *opcao);
 
-int compara_prioridade(const void *prioridade1, const void *b);
+int compara_prioridade(const void *valor1, const void *valor2);
 
 void filtro_categoria_prioridade(lista_tarefa *lt, int modo);
 
