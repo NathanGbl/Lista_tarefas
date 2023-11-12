@@ -5,7 +5,7 @@
 </p>
 
 <p>
-  <b>Descrição: </b>O programa possui um menu onde o usuário pode escolher qual ação deseja realizar com relação a suas tarefas. Caso queira salvar as alterações, ele preciso escolher a opção 0. Já o menu possui seis opções sendo quatro de gerenciar tarefas, uma para um outro menu de filtros e uma para um menu de exportações.
+  <b>Descrição: </b>O programa possui um menu onde o usuário pode escolher qual ação deseja realizar com relação a suas tarefas. Caso queira salvar as alterações, ele precisa escolher a opção 0. Já o menu possui seis opções sendo quatro de gerenciar tarefas, uma para um outro menu de filtros e uma para um menu de exportações.
 </p>
 
 <p>
@@ -22,7 +22,7 @@
 
 <h1 align="center">Agradecimentos</h1>
 
-<p>Agradeço ao professor de Desenvolvimento de Algoritmos pela proposta do projeto. Graças a este projeto pude entender de maneira mais fácil os conceitos estudados em aula e me sinto mais preparado para a prova. Além disso, agradeço a FEI que me proporcionou estudar essa matéria com esse professor. Obrigado por visitar o repositório e espero que gostem!</p>
+<p>Agradeço ao professor de Desenvolvimento de Algoritmos pela proposta do projeto. Graças a este projeto pude entender de maneira mais fácil os conceitos estudados em aula e me sinto mais preparado para a prova. Além disso, agradeço a FEI que me proporcionou estudar essa matéria com esse professor. Obrigado por visitar o repositório e espero que goste!</p>
 
 <h1 align="center">Autor</h1>
 
