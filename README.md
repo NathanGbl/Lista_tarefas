@@ -29,6 +29,6 @@
 <table align="center">
   <th>
     <p>Nathan Gabriel da Fonseca Leite</p>
-  <img src="https://media-gru1-2.cdn.whatsapp.net/v/t61.24694-24/317025670_1492962331197094_8337048127171950503_n.jpg?ccb=11-4&oh=01_AdT-8timW7LPC4Elzv_MjZ4WdfEddztBsX8n-MAhcVlAkw&oe=654BBDDA&_nc_sid=000000&_nc_cat=100">
+  <img height="400" src="https://media-gru1-2.cdn.whatsapp.net/v/t61.24694-24/317025670_1492962331197094_8337048127171950503_n.jpg?ccb=11-4&oh=01_AdT-8timW7LPC4Elzv_MjZ4WdfEddztBsX8n-MAhcVlAkw&oe=654BBDDA&_nc_sid=000000&_nc_cat=100">
   </th>
 </table>
