@@ -12,7 +12,6 @@ int main() {
 
   do {
     exibe_menu(&opcao);
-
     switch(opcao) {
       case 1:
         cadastra_tarefa(&lt, &opcao);
@@ -25,6 +24,8 @@ int main() {
         break;
       case 4:
         alterar_tarefa(&lt, &opcao);
+        break;
+      case 0:
         break;
       default:
         printf("Opção inválida.\n");
