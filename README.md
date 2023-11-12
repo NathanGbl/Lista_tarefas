@@ -1,4 +1,4 @@
-<h1 align="center">Lista Tarefas</h1>
+<h1 align="center">Lista de Tarefas</h1>
 
 <p>
   <b>Objetivo: </b>Esse projeto possui a proposta de desenvolver um algoritmo que gerencie, filtre e exporte tarefas. Além disso, o projeto possui o objetivo de retomar os assuntos abordados durante o semestre para que sirva de revisão para a prova.
