@@ -204,26 +204,53 @@ void alterar_tarefa(lista_tarefa *lt, int *opcao) {
 
 // filtros
 
-void filtro_prioridade(lista_tarefa *lt) {
+void filtro_prioridade(lista_tarefa *lt, int modo) {
 
+  tarefa lt_prioridade[100];
+  int lt_prioridade_qtnd = 0;
   int prioridade;
-  int cont = 0;
   printf("\t\tDigite a prioridade desejada: ");
   scanf("%d", &prioridade);
-  
-  for (int i = 0; i < lt->qtnd; i++) {
-    // Loop que itera sobre todas as tarefas do struct lista_tarefa. Caso a tarefa tenha a prioridade digitada pelo usuário, a exibe.
-    if (lt->tarefa[i].prioridade == prioridade) {
-      printf("\t\tTarefa %d\n", i);
-      printf("\t\t\tDescrição: %s\n", lt->tarefa[i].descricao);
-      printf("\t\t\tCategoria: %s\n", lt->tarefa[i].categoria);
-      printf("\t\t\tPrioridade: %d\n", lt->tarefa[i].prioridade);
-      printf("\t\t\tEstado: %s\n", lt->tarefa[i].estado);
-      cont += 1;
-    }
+
+  if (prioridade < 0 || prioridade > 10) {
+    printf("\t\tPrioridade inválida.\n");
   }
-  if (cont == 0) {
-    printf("\t\tNão há tarefas com a prioridade %d.\n", prioridade);
+  else {
+    for (int i = 0; i < lt->qtnd; i++) {
+      // Loop que itera sobre todas as tarefas do struct lista_tarefa. Caso a tarefa tenha a prioridade digitada pelo usuário, adiciona no array lt_prioridade.
+      if (lt->tarefa[i].prioridade == prioridade) {
+        strcpy(lt_prioridade[lt_prioridade_qtnd].descricao, lt->tarefa[i].descricao);
+        strcpy(lt_prioridade[lt_prioridade_qtnd].categoria, lt->tarefa[i].categoria);
+        lt_prioridade[lt_prioridade_qtnd].prioridade = lt->tarefa[i].prioridade;
+        strcpy(lt_prioridade[lt_prioridade_qtnd].estado, lt->tarefa[i].estado);
+        lt_prioridade_qtnd += 1; // Aumenta a quantidade para apontar para a última tarefa
+      }
+    }
+    if (lt_prioridade_qtnd == 0) {
+      printf("\t\tNão há tarefas com a prioridade %d.\n", prioridade);
+    }
+    if (modo == 0) {
+      // Se for para filtrar apenas, imprime
+      for (int i = 0; i < lt_prioridade_qtnd; i++) {
+        // Loop que itera sobre todas as tarefas do struct lista_tarefa. Caso a tarefa tenha a prioridade digitada pelo usuário, a exibe.
+        printf("\t\tTarefa %d\n", i);
+        printf("\t\t\tDescrição: %s\n", lt_prioridade[i].descricao);
+        printf("\t\t\tCategoria: %s\n", lt_prioridade[i].categoria);
+        printf("\t\t\tPrioridade: %d\n", lt_prioridade[i].prioridade);
+        printf("\t\t\tEstado: %s\n", lt_prioridade[i].estado);
+      }
+    }
+    else if (modo == 1) {
+      // Se for para escrever no arquivo, abrirá o arquivo Lista_tarefa.txt para escrever
+      // O loop itera sobre a lista lt_prioridade e escreve as tarefas dentro dela no arquivo
+      FILE *f = fopen("Lista_tarefas.txt", "w");
+      fprintf(f, "Tarefa           Prioridade               Categoria               estado         descricao\n"); // Digita a primeira linha do arquivo
+
+      for (int i = 0; i < lt_prioridade_qtnd; i++) {
+        fprintf(f, "Tarefa %d:            %d                    %s                 %s           %s\n", i, lt_prioridade[i].prioridade, lt_prioridade[i].categoria, lt_prioridade[i].estado, lt_prioridade[i].descricao);
+      }
+      fclose(f); // Fecha o arquivo
+    }
   }
   
 }
@@ -285,30 +312,55 @@ void filtro_estado(lista_tarefa *lt, int *opcao) {
   
 }
 
-void filtro_categoria(lista_tarefa *lt) {
-  
+void filtro_categoria(lista_tarefa *lt, int modo) {
+
+  tarefa lt_categoria[100];
+  int lt_categoria_qtnd = 0;
   char categoria[101];
-  int cont = 0;
+  int prioridade;
   printf("\t\tDigite a categoria desejada: ");
   clean_buffer(); // Para que o scanf não registre o \n como input
   scanf("%[^\n]", categoria);
 
   for (int i = 0; i < lt->qtnd; i++) {
     // Loop que itera sobre todas as tarefas do struct lista_tarefa
-    // Se a categoria por a digita pelo usuário, imprime-a
+    // Se a categoria por a digita pelo usuário, adiciona-a no array lt_categoria
     if (strcmp(lt->tarefa[i].categoria, categoria) == 0) {
-      cont += 1;
-      printf("\t\tTarefa %d\n", i);
-      printf("\t\t\tDescrição: %s\n", lt->tarefa[i].descricao);
-      printf("\t\t\tCategoria: %s\n", lt->tarefa[i].categoria);
-      printf("\t\t\tPrioridade: %d\n", lt->tarefa[i].prioridade);
-      printf("\t\t\tEstado: %s\n", lt->tarefa[i].estado);
+      strcpy(lt_categoria[lt_categoria_qtnd].descricao, lt->tarefa[i].descricao);
+      strcpy(lt_categoria[lt_categoria_qtnd].categoria, lt->tarefa[i].categoria);
+      lt_categoria[lt_categoria_qtnd].prioridade = lt->tarefa[i].prioridade;
+      strcpy(lt_categoria[lt_categoria_qtnd].estado, lt->tarefa[i].estado);
+      lt_categoria_qtnd += 1; // Aumenta a quantidade para apontar para a última tarefa
     }
   }
-  if (cont == 0) {
+  
+  qsort(lt_categoria, lt_categoria_qtnd, sizeof(tarefa), compara_prioridade); // Ordena de forma decrescente o array lt_categoria com base na prioridade
+  
+  if (lt_categoria_qtnd == 0) {
     printf("\t\tCategoria não existe\n");
   }
-  
+
+  if (modo == 0) {
+    // Se for para filtrar, imprime as tarefas dentro de lt_categoria
+    for (int i = 0; i < lt_categoria_qtnd; i++) {
+      printf("\t\tTarefa %d\n", i);
+      printf("\t\t\tDescrição: %s\n", lt_categoria[i].descricao);
+      printf("\t\t\tCategoria: %s\n", lt_categoria[i].categoria);
+      printf("\t\t\tPrioridade: %d\n", lt_categoria[i].prioridade);
+      printf("\t\t\tEstado: %s\n", lt_categoria[i].estado);
+    }
+  }
+  else if (modo == 1) {
+    // Se for para escrever no arquivo, abrirá o arquivo Lista_tarefa.txt para escrever
+    // O loop itera sobre a lista lt_categoria e escreve as tarefas dentro dela no arquivo
+    FILE *f = fopen("Lista_tarefas.txt", "w");
+    fprintf(f, "Tarefa           Prioridade               Categoria               estado         descricao\n"); // Digita a primeira linha do arquivo
+
+    for (int i = 0; i < lt_categoria_qtnd; i++) {
+      fprintf(f, "Tarefa %d:            %d                    %s                 %s           %s\n", i, lt_categoria[i].prioridade, lt_categoria[i].categoria, lt_categoria[i].estado, lt_categoria[i].descricao);
+    }
+    fclose(f); // Fecha o arquivo
+  }
 }
 
 int compara_prioridade(const void *valor1, const void *valor2) {
@@ -335,52 +387,53 @@ void filtro_categoria_prioridade(lista_tarefa *lt, int modo) {
   tarefa lt_categoria[100];  
   int lt_categoria_qtnd = 0;  
   char categoria[101];
+  int prioridade;
 
   printf("\t\tCategoria desejada: ");
   clean_buffer(); // Para que o scanf não registre o \n como input
   scanf("%[^\n]", categoria);
 
-  for (int i = 0; i < lt->qtnd; i++) {
-    // Loop que itera sobre todas as tarefas do struct lista_tarefa
-    // Caso a categoria for igual a digitada pelo usuário, adiciona-a na lista lt_categoria
-    if (strcmp(lt->tarefa[i].categoria, categoria) == 0) {
-    strcpy(lt_categoria[lt_categoria_qtnd].descricao, lt->tarefa[i].descricao);
-    strcpy(lt_categoria[lt_categoria_qtnd].categoria, lt->tarefa[i].categoria);
-    lt_categoria[lt_categoria_qtnd].prioridade = lt->tarefa[i].prioridade;
-    strcpy(lt_categoria[lt_categoria_qtnd].estado, lt->tarefa[i].estado);
-    lt_categoria_qtnd += 1; // Aumenta a quantidade para apontar para a última tarefa
-    }
+  printf("\n\t\tPrioridade desejada: ");
+  scanf("%d", &prioridade);
+
+  if (prioridade < 0 || prioridade > 10) {
+    printf("\t\tPrioridade inválida\n");
   }
-
-  qsort(lt_categoria, lt_categoria_qtnd, sizeof(tarefa), compara_prioridade); // Ordena de forma decrescente o array lt_categoria com base na prioridade
-
-  if (modo == 0) {
-    // Se for apenas para imprimir, o loop itera sobre a lista lt_categoria e imprime as tarefas dentro dela
-    for (int i = 0; i < lt_categoria_qtnd; i++) {
-      printf("\t\tTarefa %d\n", i);
-      printf("\t\t\tDescrição: %s\n", lt_categoria[i].descricao);
-      printf("\t\t\tCategoria: %s\n", lt_categoria[i].categoria);
-      printf("\t\t\tPrioridade: %d\n", lt_categoria[i].prioridade);
-      printf("\t\t\tEstado: %s\n", lt_categoria[i].estado);
+  else {
+    for (int i = 0; i < lt->qtnd; i++) {
+      // Loop que itera sobre todas as tarefas do struct lista_tarefa
+      // Caso a categoria for igual a digitada pelo usuário, adiciona-a na lista lt_categoria
+      if (strcmp(lt->tarefa[i].categoria, categoria) == 0 && lt->tarefa[i].prioridade == prioridade) {
+      strcpy(lt_categoria[lt_categoria_qtnd].descricao, lt->tarefa[i].descricao);
+      strcpy(lt_categoria[lt_categoria_qtnd].categoria, lt->tarefa[i].categoria);
+      lt_categoria[lt_categoria_qtnd].prioridade = lt->tarefa[i].prioridade;
+      strcpy(lt_categoria[lt_categoria_qtnd].estado, lt->tarefa[i].estado);
+      lt_categoria_qtnd += 1; // Aumenta a quantidade para apontar para a última tarefa
+      }
     }
-    
     if (lt_categoria_qtnd == 0) {
       printf("\t\tCategoria não existe\n");
     }
-  }
-  else if (modo == 1) {
-    // Se for para escrever no arquivo, abrirá o arquivo Lista_tarefa.txt para escrever
-    // O loop itera sobre a lista lt_categoria e escreve as tarefas dentro dela no arquivo
-    FILE *f = fopen("Lista_tarefas.txt", "w");
-    fprintf(f, "Tarefa           Prioridade               Categoria               estado         descricao\n"); // Digita a primeira linha do arquivo
-
-    for (int i = 0; i < lt_categoria_qtnd; i++) {
-      fprintf(f, "Tarefa %d:            %d                    %s                 %s           %s\n", i, lt_categoria[i].prioridade, lt_categoria[i].categoria, lt_categoria[i].estado, lt_categoria[i].descricao);
+    if (modo == 0) {
+      // Se for apenas para imprimir, o loop itera sobre a lista lt_categoria e imprime as tarefas dentro dela
+      for (int i = 0; i < lt_categoria_qtnd; i++) {
+        printf("\t\tTarefa %d\n", i);
+        printf("\t\t\tDescrição: %s\n", lt_categoria[i].descricao);
+        printf("\t\t\tCategoria: %s\n", lt_categoria[i].categoria);
+        printf("\t\t\tPrioridade: %d\n", lt_categoria[i].prioridade);
+        printf("\t\t\tEstado: %s\n", lt_categoria[i].estado);
+      }
     }
-    fclose(f); // Fecha o arquivo
+    else if (modo == 1) {
+      // Se for para escrever no arquivo, abrirá o arquivo Lista_tarefa.txt para escrever
+      // O loop itera sobre a lista lt_categoria e escreve as tarefas dentro dela no arquivo
+      FILE *f = fopen("Lista_tarefas.txt", "w");
+      fprintf(f, "Tarefa           Prioridade               Categoria               estado         descricao\n"); // Digita a primeira linha do arquivo
 
-    if (lt_categoria_qtnd == 0) {
-      printf("\t\tCategoria não existe\n");
+      for (int i = 0; i < lt_categoria_qtnd; i++) {
+        fprintf(f, "Tarefa %d:            %d                    %s                 %s           %s\n", i, lt_categoria[i].prioridade, lt_categoria[i].categoria, lt_categoria[i].estado, lt_categoria[i].descricao);
+      }
+      fclose(f); // Fecha o arquivo
     }
   }
 
@@ -390,54 +443,13 @@ void filtro_categoria_prioridade(lista_tarefa *lt, int modo) {
 
 void exportar_prioridade(lista_tarefa *lt) {
 
-  int prioridade;
-  int cont = 0;
-  printf("\t\tPrioridade desejada: ");
-  scanf("%d", &prioridade);
-  
-  if (prioridade < 0 || prioridade > 10) {
-    // Valida a prioridade digitada pelo usuário
-    printf("\tPrioridade inválida\n");
-  }
-  else {
-    FILE *f = fopen("Lista_tarefas.txt", "w"); // Abre o arquivo para escrever
-    fprintf(f, "Tarefa          Prioridade          Categoria          estado          descricao\n"); // Digita a primeira linha do arquivo
-    for (int i = 0; i < lt->qtnd; i++) {
-      // Loop itera sobre todas as tarefas do struct lista_tarefa e coloca no arquivo as tarefas com prioridade digitada pelo usuário
-      if (lt->tarefa[i].prioridade == prioridade) {
-        fprintf(f, "Tarefa %d:            %d                    %s                 %s           %s\n", i, lt->tarefa[i].prioridade, lt->tarefa[i].categoria, lt->tarefa[i].estado, lt->tarefa[i].descricao);
-        cont += 1;
-      }
-    }
-    fclose(f); // Fecha o arquivo
-    if (cont == 0) {
-      printf("\t\tPrioridade não registrada ainda.\n");
-    }
-  }
+  filtro_prioridade(lt, 1); // Chama a função no modo de escrever txt
   
 }
 
 void exportar_categoria(lista_tarefa *lt) {
 
-  char categoria[101];
-  int cont = 0;
-  printf("\t\tCategoria desejada: ");
-  clean_buffer(); // Para que o scanf não registre o \n como input
-  scanf("%[^\n]", categoria);
-  
-  FILE *f = fopen("Lista_tarefas.txt", "w");
-  fprintf(f, "Tarefa          Prioridade          Categoria          estado          descricao\n"); // Digita a primeira linha do arquivo
-  for (int i = 0; i < lt->qtnd; i++) {
-    if (strcmp(lt->tarefa[i].categoria, categoria) == 0) {
-      // Loop itera sobre todas as tarefas do struct lista_tarefa e coloca no arquivo as tarefas com categoria digitada pelo usuário
-      fprintf(f, "Tarefa %d:            %d                    %s                 %s           %s\n", i, lt->tarefa[i].prioridade, lt->tarefa[i].categoria, lt->tarefa[i].estado, lt->tarefa[i].descricao);
-      cont += 1;
-    }
-  }
-  fclose(f); // Fecha o arquivo
-  if (cont == 0) {
-    printf("\t\tCategoria não registrada ainda.\n");
-  }
+  filtro_categoria(lt, 1); // Chama a função no modo de escrever txt
   
 }
 
