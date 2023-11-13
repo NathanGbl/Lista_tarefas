@@ -29,13 +29,13 @@ int main() {
         menu_filtros(&opcao);
         switch(opcao) {
           case 1:
-            filtro_prioridade(&lt);
+            filtro_prioridade(&lt, 0);
             break;
           case 2:
             filtro_estado(&lt, &opcao);
             break;
           case 3:
-            filtro_categoria(&lt);
+            filtro_categoria(&lt, 0);
             break;
           case 4:
             filtro_categoria_prioridade(&lt, 0);
